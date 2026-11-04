@@ -4,14 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avengers Character Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-
-
     <script src="app.js" defer></script>
 </head>
 <body>
-    <h1>Avengers Character Search</h1>
+    <header>
+        <h1>Avengers Character Search</h1>
+    </header>
 
-    <button type="button" id="search-btn">Search</button>
+    <main>
+        <label for="search">Search by Full Name or Alias</label>
+        <div class="search-row">
+            <input type="text" id="search" name="search" placeholder="e.g. Captain America or Steve Rogers" autocomplete="off">
+            <button type="button" id="search-btn">Search</button>
+        </div>
+
+        <h2>Result</h2>
+        <hr>
+        <div id="result"></div>
+    </main>
 </body>
 </html>

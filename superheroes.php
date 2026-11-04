@@ -63,10 +63,39 @@ $superheroes = [
   ], 
 ];
 
-?>
+header('Content-Type: text/html; charset=UTF-8');
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+// Read the search query from ?query=... and sanitize it:
+// strip any HTML tags, trim whitespace and cap the length.
+// The query is only ever compared against the array, never printed,
+// and all output below is escaped, so nothing can be injected into the page.
+$query = isset($_GET['query']) ? (string) $_GET['query'] : '';
+$query = trim(strip_tags($query));
+$query = substr($query, 0, 100);
+$query = strtolower($query);
+
+// Blank search: return the full list of superheroes
+if ($query === '') {
+    echo "<ul>";
+    foreach ($superheroes as $superhero) {
+        echo "<li>" . htmlspecialchars($superhero['alias']) . "</li>";
+    }
+    echo "</ul>";
+    exit;
+}
+
+// Otherwise look for a hero whose alias or name matches (case-insensitive)
+foreach ($superheroes as $superhero) {
+    $alias = strtolower($superhero['alias']);
+    $name  = strtolower($superhero['name']);
+
+    if ($query === $alias || $query === $name) {
+        echo "<h3>" . htmlspecialchars($superhero['alias']) . "</h3>";
+        echo "<h4>A.K.A " . htmlspecialchars($superhero['name']) . "</h4>";
+        echo "<p>" . htmlspecialchars($superhero['biography']) . "</p>";
+        exit;
+    }
+}
+
+// No match found
+echo '<p class="not-found">Superhero not found</p>';
